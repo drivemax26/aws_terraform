@@ -17,6 +17,20 @@ resource "aws_vpc" "main" {
 }
 
 
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.main.id
+  }
+
+  tags = {
+    Name = "my_route_table-${var.environment}"
+  }
+}
+
+
 resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.publicCIDR
@@ -39,22 +53,6 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
-
-resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.main.id
-
-  route {
-    cidr_block = var.publicCIDR
-    gateway_id = aws_internet_gateway.main.id
-  }
-
-  tags = {
-    Name        = "PublicRouteTable"
-    Environment = var.environment
-  }
-}
-
-
 resource "aws_route_table_association" "public" {
   subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.public.id
@@ -64,8 +62,8 @@ resource "aws_route_table_association" "public" {
 resource "aws_instance" "ec2" {
   ami             = var.instance_AMI
   instance_type   = var.instance_type
-  subnet_id       = aws_subnet.public.id
-  vpc_security_group_ids = ["aws_security_group.main.id"]
+  # subnet_id       = aws_subnet.public.id
+  vpc_security_group_ids = [aws_security_group.main.id]
 
 
   user_data = <<-EOF
@@ -76,8 +74,8 @@ resource "aws_instance" "ec2" {
   EOF
 
   tags = {
-    Name        = var.instance_tag
-    Environment = var.environment
+    # Name        = var.instance_tag
+    # Environment = var.environment
   }
 }
 
