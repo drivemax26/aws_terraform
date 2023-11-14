@@ -62,7 +62,7 @@ resource "aws_route_table_association" "public" {
 resource "aws_instance" "ec2" {
   ami             = var.instance_AMI
   instance_type   = var.instance_type
-  # subnet_id       = aws_subnet.public.id
+  subnet_id       = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.main.id]
 
 
