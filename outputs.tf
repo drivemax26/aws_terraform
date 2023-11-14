@@ -1,27 +1,27 @@
 output "ec2_public_ip" {
-  put your code here
+  value = aws_instance.ec2.public_ip
 }
 
 output "ec2_ami" {
-  put your code here
+  value = aws_instance.ec2.ami
 }
 
 output "ec2_type" {
-  put your code here
+  value = aws_instance.ec2.instance_type
 }
 
 output "public_vpc_id" {
-  put your code here
+  value = aws_vpc.main.id
 }
 
 output "ec2_subnet_id" {
-  put your code here
+  value = aws_subnet.public.id
 }
 
 output "public_subnet_AZ" {
-  put your code here
+  value = aws_subnet.public.availability_zone
 }
 
 output "ec2_region" {
-  put your code here
+  value = var.region
 }

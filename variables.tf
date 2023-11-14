@@ -1,5 +1,4 @@
 variable "region" {
-  #default region to deploy infrastructure
   type    = string
   default = "eu-central-1"
 }
@@ -15,13 +14,14 @@ variable "cidr" {
 }
 
 variable "publicCIDR" {
-  type    = string
-  default = "10.0.1.0/24"
+  type    = list(string)
+  default = ["10.0.1.0/24"]
 }
 
 variable "environment" {
   default = "dev"
 }
+
 variable "instance_type" {
   #default instance_type to deploy
   type    = string
